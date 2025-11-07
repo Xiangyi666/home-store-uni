@@ -1,0 +1,116 @@
+@import "../../nvue.wxss";
+.main.data-v-d9e538a6 {
+  padding: 32rpx;
+  overflow-y: scroll;
+  padding-bottom: 170rpx;
+}
+.tip-title.data-v-d9e538a6 {
+  margin: 8rpx 0;
+  color: #666;
+  margin-top: 8px;
+}
+.flex-line.data-v-d9e538a6 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.uni-input-wrapper.data-v-d9e538a6 {
+  margin-top: 16rpx;
+}
+.title.data-v-d9e538a6 {
+  font-weight: bold;
+  margin-top: 40rpx;
+  font-size: 32rpx;
+}
+.title-2.data-v-d9e538a6 {
+  margin-top: 24rpx;
+  font-size: 32rpx;
+}
+.qu-area.data-v-d9e538a6 {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.qu-area .title.data-v-d9e538a6 {
+  margin-bottom: 12rpx;
+}
+.uni-input.data-v-d9e538a6 {
+  margin: 8rpx 0;
+  padding: 15rpx 25rpx;
+}
+.data-v-d9e538a6 .uni-easyinput {
+  margin-top: 8rpx !important;
+}
+.data-v-d9e538a6 .uni-date {
+  margin-top: 12rpx;
+}
+.submit-area.data-v-d9e538a6 {
+  position: fixed;
+  border-top: 1px solid #e8e8e8;
+  background: #fff;
+  bottom: 0rpx;
+  left: 0;
+  padding: 12px 24px;
+  width: 100%;
+}
+.data-v-d9e538a6 .uni-data-checklist .checklist-group .checklist-box.is--tag {
+  border: none !important;
+  border-radius: 24rpx !important;
+}
+.btn.data-v-d9e538a6 {
+  background: #1890ff;
+  border-radius: 44rpx;
+}
+.uni-input-number.data-v-d9e538a6 {
+  width: 160rpx;
+  height: 74rpx;
+  padding: 0rpx 25rpx;
+  margin-right: 12rpx;
+}
+.data-v-d9e538a6 .uni-icons {
+  color: #1890ff !important;
+  margin-left: -28rpx;
+}
+.data-v-d9e538a6 .uni-date-x .icon-calendar {
+  margin-right: 24rpx;
+}
+.uni-select-unit.data-v-d9e538a6 {
+  width: 94rpx !important;
+}
+.store-checks.data-v-d9e538a6 {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: row;
+}
+.scan-area.data-v-d9e538a6 {
+  margin-top: 24rpx;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.data-v-d9e538a6 .uni-data-checklist .checklist-group .checklist-box.is--tag.is-checked {
+  background-color: #2979ff !important;
+}
+.store-checks.data-v-d9e538a6 .uni-data-checklist .checklist-group .checklist-box.is--tag {
+  background: #eff6ff;
+  padding: 20rpx 24rpx;
+  align-items: center;
+  justify-content: center;
+  border-radius: 34rpx !important;
+}
+.add-tag.data-v-d9e538a6 {
+  background: #fff;
+  border: 1rpx #e8e8e8 solid;
+  padding: 10rpx 24rpx;
+  margin: 10rpx 0;
+  width: 120rpx;
+  border-radius: 34rpx !important;
+}
+.scan-img.data-v-d9e538a6 {
+  width: 136rpx;
+  height: 136rpx;
+}

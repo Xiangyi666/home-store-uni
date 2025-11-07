@@ -1,0 +1,1 @@
+<view> 家庭管理 <button bindtap="{{a}}">加入家庭9</button></view>

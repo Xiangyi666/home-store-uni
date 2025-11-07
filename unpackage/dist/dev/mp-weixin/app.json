@@ -1,0 +1,62 @@
+{
+  "pages": [
+    "pages/packing-in/packing-in",
+    "pages/tabBar/component/component",
+    "pages/component/view/view",
+    "pages/login/login",
+    "pages/component/scroll-view/scroll-view",
+    "pages/component/swiper/swiper",
+    "pages/component/navigator/navigator",
+    "pages/component/navigator/navigate/navigate",
+    "pages/component/navigator/redirect/redirect",
+    "pages/homes/homes",
+    "pages/storage/storage"
+  ],
+  "window": {
+    "pageOrientation": "portrait",
+    "navigationBarTitleText": "Hello uniapp",
+    "navigationBarTextStyle": "white",
+    "navigationBarBackgroundColor": "#007AFF",
+    "backgroundColor": "#F8F8F8",
+    "backgroundColorTop": "#F4F5F6",
+    "backgroundColorBottom": "#F4F5F6"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#007AFF",
+    "borderStyle": "black",
+    "backgroundColor": "#F8F8F8",
+    "list": [
+      {
+        "pagePath": "pages/packing-in/packing-in",
+        "iconPath": "/static/packing-inactive.png",
+        "selectedIconPath": "/static/packing-active.png",
+        "text": "出入库"
+      },
+      {
+        "pagePath": "pages/storage/storage",
+        "iconPath": "/static/冰箱-inactive-s.png",
+        "selectedIconPath": "/static/冰箱-active-s2.png",
+        "text": "家庭库存"
+      },
+      {
+        "pagePath": "pages/component/swiper/swiper",
+        "iconPath": "/static/过期提醒-inactive.png",
+        "selectedIconPath": "/static/过期提醒-active.png",
+        "text": "预警"
+      },
+      {
+        "pagePath": "pages/login/login",
+        "iconPath": "/static/数据分析-inactive.png",
+        "selectedIconPath": "/static/数据分析-active.png",
+        "text": "数据"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "演示定位能力"
+    }
+  },
+  "usingComponents": {}
+}

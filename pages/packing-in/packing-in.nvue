@@ -1,0 +1,289 @@
+<template>
+	<view class="main">
+		<view class="scan-area">
+			<image class="scan-img" src="/static/扫码.png" />
+			<text class="tip-title">上传购物小票快速录入</text>
+		</view>
+		<view class="family-line">
+	   <picker 
+	      mode="selector" 
+	      :range="homeOptions" 
+	      :value="selectedName" 
+	      @change="homeSwitch"
+				range-key="name"
+	    >
+	      <view class="picker">
+	        当前选择：{{ selectedName }}
+	      </view>
+	    </picker>
+			</view>
+		<text class="title">商品信息</text>
+		<view class="uni-input-wrapper">
+		    <input class="uni-input"  v-model="goodsName" placeholder="请输入" />
+				<input class="uni-input"  v-model="supplier" placeholder="输入来源"></input class="uni-input">
+				<input class="uni-input"  v-model="tagsNameStr" placeholder="输入品类或从下方选择"></input class="uni-input">
+				<view >
+					<uni-data-checkbox mode="tag"  :multiple="false" v-model="tagStr" :localdata="tags">
+					</uni-data-checkbox>
+				</view>
+		</view>
+		<view class="qu-area">
+			<view style="width:48%">
+				<text class="title-2">数量</text>
+				<view class="flex-line">
+				<input class="uni-input uni-input-number"  v-model="quantity"></input>
+				<view class="uni-select-unit">
+					<uni-data-select
+						v-model="unit"
+						:localdata="unitRange"
+						@change="changeUnit"
+						placement="top"
+						:clear="false"
+					></uni-data-select>
+				</view>
+				
+				</view>
+			</view>
+			<view style="width:45%">
+				<text class="title-2">预计多久过期</text>
+				<uni-easyinput class="uni-input"  v-model="shelfLifeDays" :clearable="false" placeholder="请输入天数" >
+					<template #right>
+							<text style="font-size:32rpx;margin-right:24rpx">天</text>
+						</template>
+				</uni-easyinput>
+			</view>
+		</view>
+		<view class="addStore-areta">
+			<text class="title">存放位置</text>
+			<view class="store-checks">
+				<uni-data-checkbox  mode="tag" class="store-tag"  :multiple="false" v-model="storeId" :localdata="storages">
+				</uni-data-checkbox>
+			</view>
+			<view class="add-tag"><text>+新</text></view>
+		</view>
+		<view class="submit-area">
+			<button class="btn" @click="doSubmit" type="primary"> 确认入库</button>
+		</view>
+	</view>
+</template>
+
+<script>
+	import http from '@/utils/http.js';
+	
+	export default {
+		data() {
+			return {
+				quantity: 600,
+				goodsName: '玉米',
+				currentFamily: '',
+				homeOptions:[],
+				selectedId: '',
+				selectedName: '',
+				shelfLifeDays: 27,
+				tagsNameStr: '',
+				expireDate: Date.now(),
+				tagStr: [],
+				unitRange: [{value: 'g', text: 'g'}, {value: '个', text: '个'}, {value: 'ml', text: 'ml'}],
+				unit:'g',
+				storeId: '',
+				supplier: '超市',
+				storages:[],
+				tags: [{value:'食品', text:'食品'},{value:'饮料', text:'饮料'}],
+			}
+		},
+		watch:{
+			tagStr(v) {
+				this.tagsNameStr = v
+			}
+		},
+		mounted() {
+		},
+		async onShow() {
+			await this.getFamilys()
+			this.getStores()
+		},
+		methods: {
+			homeSwitch(v){
+				console.log('======switch',v.detail?.value)
+				const index = v.detail?.value
+				const obj = this.homeOptions[index]
+				this.selectedName = obj.name
+				this.selectedId = obj.id
+			},
+			mock() {
+				uni.redirectTo({
+					url: '/pages/homes/homes'
+				})
+			},
+			async getFamilys() {
+				this.homeOptions =[]
+				const res = await http.get('/families/getAll')
+				console.log('familys-----', res)
+				this.homeOptions = res.data
+				if(this.homeOptions.length == 0) {
+					console.log('re-----')
+					uni.redirectTo({
+						url: '/pages/homes/homes'
+					})
+				}
+				this.selectedName = res?.data[0].name
+				this.selectedId = res?.data[0].id
+			},
+			async getStores() {
+			
+				const res = await http.post('/warehouses/getAllByFamily',{
+					familyId: this.selectedId
+				})
+				console.log('stores---', res)
+				if(res?.data.length) {
+					this.storages = []
+					res.data.map(item => {
+						this.storages.push({
+							value: item.id,
+							text:item.name
+						})
+					})
+				}
+			},
+			async stockIn() {
+				const res = await http.post('/warehouses/stock-in',{
+					ingredientName: this.goodsName,
+					unit: this.unit,
+					warehouseId: this.storeId,
+					shelfLifeDays: this.shelfLifeDays,
+					quantity: this.quantity,
+					supplier: this.supplier
+				})
+				console.log('---res', res)
+			},
+			changeUnit() {},
+			addTag() {
+				this.tags.push({value:this.tagsNameStr, text:this.tagsNameStr})
+			},
+			doSubmit() {
+				console.log(this.tagStr, this.goodsName,this.storeId, this.tagsNameStr, this.quantity, this.supplier,this.shelfLifeDays)
+				this.stockIn()
+			}
+		}
+	}
+</script>
+
+<style scoped lang="stylus">
+	.main{
+		padding: 32rpx;
+		overflow-y: scroll;
+		padding-bottom:170rpx;
+	}
+	
+	.tip-title{
+		margin: 8rpx 0;
+		color:#666;
+		margin-top:8px;
+	}
+	.flex-line{
+		display: flex
+		flex-direction: row
+		justify-content: center
+		align-items: center
+	}
+	.uni-input-wrapper{
+		margin-top: 16rpx;
+	}
+	.title{
+		font-weight: bold;
+		margin-top: 40rpx;
+		font-size:32rpx;
+	}
+	.title-2{
+		margin-top: 24rpx;
+		font-size: 32rpx;
+	}
+	.qu-area{
+		width:100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between
+		.title{
+			margin-bottom:12rpx
+		}
+	}
+	.uni-input{
+		margin: 8rpx 0;
+		padding: 15rpx 25rpx;
+	}
+	>>> .uni-easyinput {
+		margin-top: 8rpx !important
+}
+>>> .uni-date{
+	margin-top:12rpx
+}
+	.submit-area{
+		position: fixed;
+		border-top: 1px solid #E8E8E8;
+		background: #fff;
+		bottom:0rpx;
+		left:0;
+		padding: 12px 24px;
+		width:100%;
+	}	
+	>>> .uni-data-checklist .checklist-group .checklist-box.is--tag {
+		border: none !important;
+		border-radius: 24rpx !important
+	}
+	.btn{
+		background: #1890FF;
+		border-radius: 44rpx;
+	}
+	.uni-input-number{
+		width: 160rpx;
+		height:74rpx
+		padding: 0rpx 25rpx
+		margin-right: 12rpx
+	}
+	>>> .uni-icons{
+		color: #1890FF !important
+		margin-left: -28rpx;
+	}
+	>>> .uni-date-x .icon-calendar {
+		margin-right: 24rpx
+}
+	.uni-select-unit{
+		width:94rpx !important
+	}
+	.store-checks{
+		margin-top:24rpx
+		display: flex
+		flex-direction: row
+	}
+	.scan-area{
+		margin-top: 24rpx;
+		display: flex;
+		width:100%;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+	}
+	>>> .uni-data-checklist .checklist-group .checklist-box.is--tag.is-checked {
+		    background-color: #2979ff !important
+	}
+	.store-checks >>>.uni-data-checklist .checklist-group .checklist-box.is--tag{
+		background: #EFF6FF
+		padding:20rpx 24rpx;
+		align-items: center
+		justify-content: center
+		border-radius: 34rpx !important
+	}
+	.add-tag{
+		background: #fff;
+		border:1rpx #e8e8e8 solid
+		padding:10rpx 24rpx;
+		margin: 10rpx 0
+		width: 120rpx;
+		border-radius: 34rpx !important
+	}
+	.scan-img{
+		width: 136rpx;
+		height: 136rpx;
+	}
+</style>

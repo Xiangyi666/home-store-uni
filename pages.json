@@ -1,0 +1,156 @@
+{
+	"leftWindow": {
+		"path": "windows/left-window.vue",
+		"style": {
+			"width": "350px"
+		}
+	},
+	"topWindow": {
+		"path": "windows/top-window.vue",
+		"style": {
+			"height": "60px"
+		}
+	},
+	"pages": [
+		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/packing-in/packing-in",
+			"style": {
+				"navigationBarTitleText": "出入库",
+				"navigationBarBackgroundColor": "#e8e8e8",
+				"navigationBarTextStyle":"black",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "22px",
+							"color": "#FFFFFF"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabBar/component/component",
+			"style": {
+				"navigationBarTitleText": "内置组件",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "22px",
+							"color": "#FFFFFF"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/component/view/view",
+			"style": {
+				"navigationBarTitleText": "view"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "view"
+			}
+		},
+		{
+			"path": "pages/component/scroll-view/scroll-view",
+			"style": {
+				"navigationBarTitleText": "scroll-view"
+			}
+		},
+		{
+			"path": "pages/component/swiper/swiper",
+			"style": {
+				"navigationBarTitleText": "swiper"
+			}
+		},
+		{
+			"path": "pages/component/navigator/navigator",
+			"style": {
+				"navigationBarTitleText": "navigator"
+			}
+		},
+		{
+			"path": "pages/component/navigator/navigate/navigate",
+			"style": {
+				"navigationBarTitleText": "navigatePage"
+			}
+		},
+		{
+			"path": "pages/component/navigator/redirect/redirect",
+			"style": {
+				"navigationBarTitleText": "redirectPage"
+			}
+		},
+		{
+			"path" : "pages/homes/homes",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/storage/storage",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		}
+
+],
+	"globalStyle": {
+		"pageOrientation": "portrait",
+		"navigationBarTitleText": "Hello uniapp",
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#007AFF",
+		"backgroundColor": "#F8F8F8",
+		"backgroundColorTop": "#F4F5F6",
+		"backgroundColorBottom": "#F4F5F6",
+		"mp-360": {
+			"navigationStyle": "custom"
+		},
+		"h5": {
+			"maxWidth": 1190,
+			"navigationBarTextStyle": "black",
+			"navigationBarBackgroundColor": "#F1F1F1"
+		}
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#007AFF",
+		"borderStyle": "black",
+		"backgroundColor": "#F8F8F8",
+		"list": [{
+				"pagePath": "pages/packing-in/packing-in",
+				"iconPath": "/static/packing-inactive.png",
+				"selectedIconPath": "/static/packing-active.png",
+				"text": "出入库"
+			},
+			{
+				"pagePath": "pages/storage/storage",
+				"iconPath": "/static/冰箱-inactive-s.png",
+				"selectedIconPath": "/static/冰箱-active-s2.png",
+				"text": "家庭库存"
+			}, {
+				"pagePath": "pages/component/swiper/swiper",
+				"iconPath": "/static/过期提醒-inactive.png",
+				"selectedIconPath": "/static/过期提醒-active.png",
+				"text": "预警"
+			}, {
+				"pagePath": "pages/login/login",
+				"iconPath": "/static/数据分析-inactive.png",
+				"selectedIconPath": "/static/数据分析-active.png",
+				"text": "数据"
+			}
+		]
+	}
+}
