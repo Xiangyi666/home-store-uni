@@ -1,152 +1,242 @@
 <template>
 	<view class="main">
+
 		<view class="scan-area">
-			<image class="scan-img" src="/static/扫码.png" />
-			<text class="tip-title">上传购物小票快速录入</text>
+			<image class="scan-img" src="/static/像素风-房子.png" />
+			<uni-data-select class="home-select" :clear="false" mode="none" :wrap="true" v-model="selectedId"
+				:localdata="homeOptions"></uni-data-select>
 		</view>
 		<view class="family-line">
-	   <picker 
-	      mode="selector" 
-	      :range="homeOptions" 
-	      :value="selectedName" 
-	      @change="homeSwitch"
-				range-key="name"
-	    >
-	      <view class="picker">
-	        当前选择：{{ selectedName }}
-	      </view>
-	    </picker>
-			</view>
+			<button open-type="share" class="mini-btn">+邀请</button>
+			<button class="mini-btn" style="background:#27C4A3">管理家庭</button>
+		</view>
 		<text class="title">商品信息</text>
 		<view class="uni-input-wrapper">
-		    <input class="uni-input"  v-model="goodsName" placeholder="请输入" />
-				<input class="uni-input"  v-model="supplier" placeholder="输入来源"></input class="uni-input">
-				<input class="uni-input"  v-model="tagsNameStr" placeholder="输入品类或从下方选择"></input class="uni-input">
-				<view >
-					<uni-data-checkbox mode="tag"  :multiple="false" v-model="tagStr" :localdata="tags">
-					</uni-data-checkbox>
-				</view>
+			<input class="uni-input" v-model="goodsName" placeholder="请输入" />
+			<input class="uni-input" v-model="supplier" placeholder="输入来源"></input class="uni-input">
+			<input class="uni-input" v-model="tagsNameStr" placeholder="输入品类或从下方选择"></input class="uni-input">
+			<view>
+				<uni-data-checkbox mode="tag" :multiple="false" v-model="tagStr" :localdata="tags">
+				</uni-data-checkbox>
+			</view>
 		</view>
 		<view class="qu-area">
 			<view style="width:48%">
 				<text class="title-2">数量</text>
 				<view class="flex-line">
-				<input class="uni-input uni-input-number"  v-model="quantity"></input>
-				<view class="uni-select-unit">
-					<uni-data-select
-						v-model="unit"
-						:localdata="unitRange"
-						@change="changeUnit"
-						placement="top"
-						:clear="false"
-					></uni-data-select>
-				</view>
-				
+					<input class="uni-input uni-input-number" v-model="quantity"></input>
+					<view class="uni-select-unit">
+						<uni-data-select v-model="unit" :localdata="unitRange" @change="changeUnit" placement="top"
+							:clear="false"></uni-data-select>
+					</view>
+
 				</view>
 			</view>
 			<view style="width:45%">
 				<text class="title-2">预计多久过期</text>
-				<uni-easyinput class="uni-input"  v-model="shelfLifeDays" :clearable="false" placeholder="请输入天数" >
+				<uni-easyinput class="uni-input" v-model="shelfLifeDays" :clearable="false" placeholder="请输入天数">
 					<template #right>
-							<text style="font-size:32rpx;margin-right:24rpx">天</text>
-						</template>
+						<text style="font-size:32rpx;margin-right:24rpx">天</text>
+					</template>
 				</uni-easyinput>
 			</view>
 		</view>
 		<view class="addStore-areta">
 			<text class="title">存放位置</text>
 			<view class="store-checks">
-				<uni-data-checkbox  mode="tag" class="store-tag"  :multiple="false" v-model="storeId" :localdata="storages">
+				<uni-data-checkbox mode="tag" class="store-tag" :multiple="false" v-model="storeId" :localdata="storages">
 				</uni-data-checkbox>
 			</view>
-			<view class="add-tag"><text>+新</text></view>
+			<view class="add-tag" @click="createWareHouse"><text>+新</text></view>
 		</view>
 		<view class="submit-area">
-			<button class="btn" @click="doSubmit" type="primary"> 确认入库</button>
+			<button class="btn" style="background:#2979ff" @click="doSubmit" type="primary"> 确认入库</button>
+			<button class="btn" @click="doBatch" style="color:#2979ff" type="primary"> 批量入库</button>
 		</view>
+		<uni-popup ref="inputDialog" type="dialog">
+			<uni-popup-dialog ref="inputClose" mode="input" title="创建仓库" :before-close="true" v-model="warehouseName"
+				placeholder="请输入仓库名称" @close="cancelDialog" @confirm="dialogInputConfirm"></uni-popup-dialog>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	import http from '@/utils/http.js';
-	
+
 	export default {
 		data() {
 			return {
 				quantity: 600,
 				goodsName: '玉米',
 				currentFamily: '',
-				homeOptions:[],
+				homeOptions: [],
 				selectedId: '',
+				warehouseName: '',
 				selectedName: '',
 				shelfLifeDays: 27,
 				tagsNameStr: '',
 				expireDate: Date.now(),
 				tagStr: [],
-				unitRange: [{value: 'g', text: 'g'}, {value: '个', text: '个'}, {value: 'ml', text: 'ml'}],
-				unit:'g',
+				unitRange: [{
+					value: 'g',
+					text: 'g'
+				}, {
+					value: '个',
+					text: '个'
+				}, {
+					value: 'ml',
+					text: 'ml'
+				}],
+				unit: 'g',
 				storeId: '',
 				supplier: '超市',
-				storages:[],
-				tags: [{value:'食品', text:'食品'},{value:'饮料', text:'饮料'}],
+				storages: [],
+				tags: [{
+					value: '食品',
+					text: '食品'
+				}, {
+					value: '饮料',
+					text: '饮料'
+				}],
 			}
 		},
-		watch:{
+		watch: {
 			tagStr(v) {
 				this.tagsNameStr = v
-			}
+			},
+			selectedId() {
+				this.getStores()
+			},
 		},
-		mounted() {
+		mounted() { 
+			// mock
+			// uni.redirectTo({
+			// 	url: '/pages/batchStockIn/batchStockIn'
+			// })
 		},
 		async onShow() {
 			await this.getFamilys()
 			this.getStores()
 		},
+		onShareAppMessage(option) {
+			this.isFromShare = true
+			let path = `/pages/joinFamily/joinFamily?familyId=${this.selectedId}&familyName=${encodeURI(this.selectedName)}`;
+			return {
+				title: '加入我的家庭', // 分享标题
+				path: path, // 携带参数的分享路径
+			}
+		},
 		methods: {
-			homeSwitch(v){
-				console.log('======switch',v.detail?.value)
-				const index = v.detail?.value
-				const obj = this.homeOptions[index]
-				this.selectedName = obj.name
-				this.selectedId = obj.id
+			doBatch() {
+				// uni.showToast({
+				// 	title:'敬请期待',
+				// 	icon: 'none',
+				// })
+				// return
+				uni.chooseMedia({
+					count: 1,
+					mediaType: ['image'],
+					sourceType: ['album', 'camera'],
+					maxDuration: 30,
+					camera: 'back',
+					success(res) {
+						console.log(res.tempFiles)
+						if (res.tempFiles && res.tempFiles[0]?.tempFilePath) {
+							const path = res.tempFiles[0]?.tempFilePath
+							uni.navigateTo({
+								url: `/pages/batchStockIn/batchStockIn`,
+								success: function(res) {
+									// 通过事件通道传递参数
+									res.eventChannel.emit('acceptData', {
+										path
+									});
+								}
+							})
+
+						}
+					}
+				})
+			},
+			createWareHouse() {
+				this.$refs.inputDialog.open()
+			},
+			homeSwitch(v) {
+				console.log('======switch', v.detail?.value)
+				this.selectedId = v.detail?.value
 			},
 			mock() {
 				uni.redirectTo({
 					url: '/pages/homes/homes'
 				})
 			},
-			async getFamilys() {
-				this.homeOptions =[]
-				const res = await http.get('/families/getAll')
-				console.log('familys-----', res)
-				this.homeOptions = res.data
-				if(this.homeOptions.length == 0) {
-					console.log('re-----')
-					uni.redirectTo({
-						url: '/pages/homes/homes'
+			async dialogInputConfirm() {
+				if (!this.warehouseName) {
+					uni.showToast({
+						title: '请输入',
+						icon: 'none'
+					})
+					return
+				}
+				const res = await http.post('/warehouses/create', {
+					name: this.warehouseName,
+					familyId: this.selectedId
+				})
+				if (res.success) {
+					this.$refs.inputDialog.close()
+					uni.showToast({
+						title: '创建成功！',
+						icon: 'success'
 					})
 				}
-				this.selectedName = res?.data[0].name
-				this.selectedId = res?.data[0].id
+				console.log(this.familyName)
+				this.getStores()
+			},
+
+			cancelDialog() {
+				this.$refs.inputDialog.close()
+			},
+			async getFamilys() {
+				this.homeOptions = []
+				const res = await http.get('/families/getAll')
+				console.log('familys-----', res)
+				res.data.map(item => {
+					this.homeOptions.push({
+						value: item.id,
+						text: item.name
+					})
+				})
+				uni.setStorageSync('homes', res?.data)
+				if (this.homeOptions.length == 0) {
+					console.log('re-----')
+					uni.redirectTo({
+						url: '/pages/createFamily/createFamily'
+					})
+				}
+				const recentHome = uni.getStorageSync('recent-used-home')
+				if (!recentHome) uni.setStorageSync('recent-used-home', res?.data[0].id)
+				// this.selectedName = res?.data[0].name
+				this.selectedId = uni.getStorageSync('recent-used-home')
 			},
 			async getStores() {
-			
-				const res = await http.post('/warehouses/getAllByFamily',{
+
+				const res = await http.post('/warehouses/getAllByFamily', {
 					familyId: this.selectedId
 				})
 				console.log('stores---', res)
-				if(res?.data.length) {
+				if (res?.data.length) {
 					this.storages = []
 					res.data.map(item => {
 						this.storages.push({
 							value: item.id,
-							text:item.name
+							text: item.name
 						})
 					})
 				}
+				const recentUsed = this.storages[0]?.value
+				this.storeId = recentUsed
 			},
 			async stockIn() {
-				const res = await http.post('/warehouses/stock-in',{
+				const res = await http.post('/warehouses/stock-in', {
 					ingredientName: this.goodsName,
 					unit: this.unit,
 					warehouseId: this.storeId,
@@ -154,14 +244,26 @@
 					quantity: this.quantity,
 					supplier: this.supplier
 				})
+				uni.setStorageSync('recent-used-store', this.storeId)
+				uni.setStorageSync('recent-used-home', this.selectedId)
 				console.log('---res', res)
+				if (res.success) {
+					uni.showToast({
+						title: '入库成功',
+						icon: 'success'
+					})
+				}
 			},
 			changeUnit() {},
 			addTag() {
-				this.tags.push({value:this.tagsNameStr, text:this.tagsNameStr})
+				this.tags.push({
+					value: this.tagsNameStr,
+					text: this.tagsNameStr
+				})
 			},
 			doSubmit() {
-				console.log(this.tagStr, this.goodsName,this.storeId, this.tagsNameStr, this.quantity, this.supplier,this.shelfLifeDays)
+				console.log(this.tagStr, this.goodsName, this.storeId, this.tagsNameStr, this.quantity, this.supplier, this
+					.shelfLifeDays)
 				this.stockIn()
 			}
 		}
@@ -169,120 +271,183 @@
 </script>
 
 <style scoped lang="stylus">
-	.main{
+	.mini-btn {
+		padding: 12rpx 20rpx;
+		font-size: 24rpx;
+		line-height: 32rpx;
+		background: #6ec1F5;
+		color: #fff;
+		border: none
+	}
+
+	.main {
 		padding: 32rpx;
 		overflow-y: scroll;
-		padding-bottom:170rpx;
+		padding-bottom: 170rpx;
 	}
-	
-	.tip-title{
+
+	.tip-title {
 		margin: 8rpx 0;
-		color:#666;
-		margin-top:8px;
+		color: #666;
+		margin-top: 8px;
 	}
-	.flex-line{
-		display: flex
-		flex-direction: row
-		justify-content: center
+
+	.home-select {
+		width: 80%;
+	}
+
+	.home-select>>>.uni-select {
+		border: none;
+	}
+
+	>>>.uni-select__input-text {
+		white-space: nowrap;
+		overflow: visible;
+		-o-text-overflow: unset;
+	}
+
+	.family-line {
+		display: flex;
+		flex-direction: row;
+		margin-top: 24rpx;
+	}
+
+	.family-line .mini-btn {
+		margin-right: 12rpx;
+	}
+
+	.flex-line {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
 		align-items: center
 	}
-	.uni-input-wrapper{
+
+	.uni-input-wrapper {
 		margin-top: 16rpx;
 	}
-	.title{
+
+	.title {
 		font-weight: bold;
 		margin-top: 40rpx;
-		font-size:32rpx;
+		font-size: 32rpx;
 	}
-	.title-2{
+
+	.title-2 {
 		margin-top: 24rpx;
 		font-size: 32rpx;
 	}
-	.qu-area{
-		width:100%;
+
+	.qu-area {
+		width: 100%;
 		display: flex;
 		flex-direction: row;
-		justify-content: space-between
-		.title{
-			margin-bottom:12rpx
+
+		justify-content: space-between;
+
+		.title {
+			margin-bottom: 12rpx
 		}
 	}
-	.uni-input{
+
+	.uni-input {
 		margin: 8rpx 0;
 		padding: 15rpx 25rpx;
 	}
-	>>> .uni-easyinput {
-		margin-top: 8rpx !important
-}
->>> .uni-date{
-	margin-top:12rpx
-}
-	.submit-area{
+
+	>>>.uni-easyinput {
+		margin-top: 8rpx !important;
+		 height:80rpx
+	}
+
+	>>>.uni-date {
+		margin-top: 12rpx
+	}
+
+	.submit-area {
 		position: fixed;
-		border-top: 1px solid #E8E8E8;
+		z-index: 100;
+		border-top: 1rpx solid #E8E8E8;
 		background: #fff;
-		bottom:0rpx;
-		left:0;
-		padding: 12px 24px;
-		width:100%;
-	}	
-	>>> .uni-data-checklist .checklist-group .checklist-box.is--tag {
+		bottom: 0rpx;
+		left: 0;
+		padding: 12rpx 12rpx;
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+	}
+
+	>>>.uni-data-checklist .checklist-group .checklist-box.is--tag {
 		border: none !important;
 		border-radius: 24rpx !important
 	}
-	.btn{
-		background: #1890FF;
+
+	.btn {
+		background: #F8FAFC;
 		border-radius: 44rpx;
+		width: 425rpx;
+		margin: 0 12rpx;
+		border: 1rpx solid #2979ff
 	}
-	.uni-input-number{
+
+	.uni-input-number {
 		width: 160rpx;
-		height:74rpx
-		padding: 0rpx 25rpx
-		margin-right: 12rpx
+		height: 94rpx;
+		padding: 0rpx 25rpx;
+		margin-right: 12rpx;
 	}
-	>>> .uni-icons{
-		color: #1890FF !important
+
+	>>>.uni-icons {
+		color: #1890FF !important;
 		margin-left: -28rpx;
 	}
-	>>> .uni-date-x .icon-calendar {
+
+	>>>.uni-date-x .icon-calendar {
 		margin-right: 24rpx
-}
-	.uni-select-unit{
-		width:94rpx !important
 	}
-	.store-checks{
-		margin-top:24rpx
-		display: flex
-		flex-direction: row
+
+	.uni-select-unit {
+		width: 94rpx !important
 	}
-	.scan-area{
+
+	.store-checks {
 		margin-top: 24rpx;
 		display: flex;
-		width:100%;
+		flex-direction: row
+	}
+
+	.scan-area {
+		margin-top: 24rpx;
+		display: flex;
+		width: 100%;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 
 	}
-	>>> .uni-data-checklist .checklist-group .checklist-box.is--tag.is-checked {
-		    background-color: #2979ff !important
+
+	>>>.uni-data-checklist .checklist-group .checklist-box.is--tag.is-checked {
+		background-color: #2979ff !important
 	}
-	.store-checks >>>.uni-data-checklist .checklist-group .checklist-box.is--tag{
-		background: #EFF6FF
-		padding:20rpx 24rpx;
-		align-items: center
-		justify-content: center
+
+	.store-checks>>>.uni-data-checklist .checklist-group .checklist-box.is--tag {
+		background: #EFF6FF;
+		padding: 20rpx 24rpx;
+		align-items: center;
+		justify-content: center;
 		border-radius: 34rpx !important
 	}
-	.add-tag{
+
+	.add-tag {
 		background: #fff;
-		border:1rpx #e8e8e8 solid
-		padding:10rpx 24rpx;
-		margin: 10rpx 0
+		border: 1rpx #e8e8e8 solid;
+		padding: 10rpx 24rpx;
+		margin: 10rpx 0;
 		width: 120rpx;
 		border-radius: 34rpx !important
 	}
-	.scan-img{
+
+	.scan-img {
 		width: 136rpx;
 		height: 136rpx;
 	}

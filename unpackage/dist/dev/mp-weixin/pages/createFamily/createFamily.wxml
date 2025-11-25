@@ -1,0 +1,1 @@
+<view><button data-family-id="{{a}}" open-type="share">分享test</button><button bindtap="{{c}}"><text>加入</text> {{b}}</button></view>

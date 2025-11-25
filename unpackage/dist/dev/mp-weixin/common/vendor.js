@@ -5529,6 +5529,10 @@ function vFor(source, renderItem) {
   }
   return ret;
 }
+function setRef(ref2, id, opts = {}) {
+  const { $templateRefs } = getCurrentInstance();
+  $templateRefs.push({ i: id, r: ref2, k: opts.k, f: opts.f });
+}
 const o$1 = (value, key) => vOn(value, key);
 const f$1 = (source, renderItem) => vFor(source, renderItem);
 const s$1 = (value) => stringifyStyle(value);
@@ -5536,6 +5540,7 @@ const e$1 = (target, ...sources) => extend(target, ...sources);
 const n$1 = (value) => normalizeClass(value);
 const t$1 = (val) => toDisplayString(val);
 const p$1 = (props) => renderProps(props);
+const sr = (ref2, id, opts) => setRef(ref2, id, opts);
 function createApp$1(rootComponent, rootProps = null) {
   rootComponent && (rootComponent.mpType = "app");
   return createVueApp(rootComponent, rootProps).use(plugin);
@@ -7356,8 +7361,8 @@ function isConsoleWritable() {
 }
 function initRuntimeSocketService() {
   const hosts = "127.0.0.1,10.191.220.4";
-  const port = "8090";
-  const id = "mp-weixin_MHz2KY";
+  const port = "8091";
+  const id = "mp-weixin_nHNdwM";
   const lazy = typeof swan !== "undefined";
   let restoreError = lazy ? () => {
   } : initOnError();
@@ -10127,6 +10132,28 @@ const pages = [
   {
     path: "pages/storage/storage",
     style: {
+      enablePullDownRefresh: true,
+      navigationBarTitleText: "",
+      "app-plus": {
+        bounce: "none"
+      }
+    }
+  },
+  {
+    path: "pages/createFamily/createFamily",
+    style: {
+      navigationBarTitleText: ""
+    }
+  },
+  {
+    path: "pages/joinFamily/joinFamily",
+    style: {
+      navigationBarTitleText: "加入"
+    }
+  },
+  {
+    path: "pages/batchStockIn/batchStockIn",
+    style: {
       navigationBarTitleText: ""
     }
   }
@@ -10167,7 +10194,7 @@ const tabBar = {
       text: "家庭库存"
     },
     {
-      pagePath: "pages/component/swiper/swiper",
+      pagePath: "pages/createFamily/createFamily",
       iconPath: "/static/过期提醒-inactive.png",
       selectedIconPath: "/static/过期提醒-active.png",
       text: "预警"
@@ -13035,7 +13062,7 @@ let er = new class {
 })();
 var tr = er;
 var define_process_env_UNI_STATISTICS_CONFIG_default = { version: "2", enable: true };
-var define_process_env_UNI_STAT_TITLE_JSON_default = { "pages/packing-in/packing-in": "出入库", "pages/tabBar/component/component": "内置组件", "pages/component/view/view": "view", "pages/login/login": "view", "pages/component/scroll-view/scroll-view": "scroll-view", "pages/component/swiper/swiper": "swiper", "pages/component/navigator/navigator": "navigator", "pages/component/navigator/navigate/navigate": "navigatePage", "pages/component/navigator/redirect/redirect": "redirectPage" };
+var define_process_env_UNI_STAT_TITLE_JSON_default = { "pages/packing-in/packing-in": "出入库", "pages/tabBar/component/component": "内置组件", "pages/component/view/view": "view", "pages/login/login": "view", "pages/component/scroll-view/scroll-view": "scroll-view", "pages/component/swiper/swiper": "swiper", "pages/component/navigator/navigator": "navigator", "pages/component/navigator/navigate/navigate": "navigatePage", "pages/component/navigator/redirect/redirect": "redirectPage", "pages/joinFamily/joinFamily": "加入" };
 var define_process_env_UNI_STAT_UNI_CLOUD_default = {};
 const sys = index$1.getSystemInfoSync();
 const STAT_VERSION = "4.76";
@@ -14204,6 +14231,7 @@ exports.o = o$1;
 exports.p = p$1;
 exports.resolveComponent = resolveComponent;
 exports.s = s$1;
+exports.sr = sr;
 exports.t = t$1;
 exports.tr = tr;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

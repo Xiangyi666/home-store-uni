@@ -27,7 +27,7 @@
 				<view class="uni-swipe_text--center">
 					<slot></slot>
 				</view>
-				<view class="uni-swipe_button-group button-group--right">
+				<view class="uni-swipe_button-group " v-bind:class="{'button-group--right': is_show}">
 					<slot name="right">
 						<view v-for="(item,index) in rightOptions" :key="index" :style="{
 					  backgroundColor: item.style && item.style.backgroundColor ? item.style.backgroundColor : '#C7C6CD'

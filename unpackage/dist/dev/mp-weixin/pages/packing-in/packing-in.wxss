@@ -1,4 +1,12 @@
 @import "../../nvue.wxss";
+.mini-btn.data-v-d9e538a6 {
+  padding: 12rpx 20rpx;
+  font-size: 24rpx;
+  line-height: 32rpx;
+  background: #6ec1f5;
+  color: #fff;
+  border: none;
+}
 .main.data-v-d9e538a6 {
   padding: 32rpx;
   overflow-y: scroll;
@@ -8,6 +16,25 @@
   margin: 8rpx 0;
   color: #666;
   margin-top: 8px;
+}
+.home-select.data-v-d9e538a6 {
+  width: 80%;
+}
+.home-select.data-v-d9e538a6 .uni-select {
+  border: none;
+}
+.data-v-d9e538a6 .uni-select__input-text {
+  white-space: nowrap;
+  overflow: visible;
+  -o-text-overflow: unset;
+}
+.family-line.data-v-d9e538a6 {
+  display: flex;
+  flex-direction: row;
+  margin-top: 24rpx;
+}
+.family-line .mini-btn.data-v-d9e538a6 {
+  margin-right: 12rpx;
 }
 .flex-line.data-v-d9e538a6 {
   display: flex;
@@ -42,30 +69,37 @@
 }
 .data-v-d9e538a6 .uni-easyinput {
   margin-top: 8rpx !important;
+  height: 80rpx;
 }
 .data-v-d9e538a6 .uni-date {
   margin-top: 12rpx;
 }
 .submit-area.data-v-d9e538a6 {
   position: fixed;
-  border-top: 1px solid #e8e8e8;
+  z-index: 100;
+  border-top: 1rpx solid #e8e8e8;
   background: #fff;
   bottom: 0rpx;
   left: 0;
-  padding: 12px 24px;
+  padding: 12rpx 12rpx;
   width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 .data-v-d9e538a6 .uni-data-checklist .checklist-group .checklist-box.is--tag {
   border: none !important;
   border-radius: 24rpx !important;
 }
 .btn.data-v-d9e538a6 {
-  background: #1890ff;
+  background: #f8fafc;
   border-radius: 44rpx;
+  width: 425rpx;
+  margin: 0 12rpx;
+  border: 1rpx solid #2979ff;
 }
 .uni-input-number.data-v-d9e538a6 {
   width: 160rpx;
-  height: 74rpx;
+  height: 94rpx;
   padding: 0rpx 25rpx;
   margin-right: 12rpx;
 }

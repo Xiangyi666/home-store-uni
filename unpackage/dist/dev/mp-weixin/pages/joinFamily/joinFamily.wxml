@@ -1,0 +1,1 @@
+<view class="main data-v-00552417"><image class="scan-img data-v-00552417" src="{{a}}"/><button class="join-btn data-v-00552417" bindtap="{{c}}">加入{{b}}</button></view>

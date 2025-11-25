@@ -1,0 +1,17 @@
+.main.data-v-00552417 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 210rpx;
+}
+.scan-img.data-v-00552417 {
+  width: 224rpx;
+  height: 200rpx;
+}
+.join-btn.data-v-00552417 {
+  color: #1f1f1f;
+  background: #fff;
+  margin-top: 24rpx;
+  box-shadow: 0 4px 12px rgba(39,150,245,0.3);
+}

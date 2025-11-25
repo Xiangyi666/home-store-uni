@@ -30,6 +30,7 @@
 			},
 			// 公开给用户使用，关闭全部 已经打开的组件
 			closeAll(){
+				console.log(this.$children)
 				this.children.forEach(vm=>{
 					// #ifdef APP-VUE || H5 || MP-WEIXIN
 					vm.is_show = 'none'

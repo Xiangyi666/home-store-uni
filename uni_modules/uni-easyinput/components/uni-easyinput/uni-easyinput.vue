@@ -522,7 +522,7 @@
 		/* #ifndef APP-NVUE */
 		width: 100%;
 		display: flex;
-		height: 74rpx;
+		height: 88rpx;
 		box-sizing: border-box;
 		// min-height: 36px;
 		/* #endif */

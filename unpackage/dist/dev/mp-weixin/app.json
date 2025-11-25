@@ -10,7 +10,10 @@
     "pages/component/navigator/navigate/navigate",
     "pages/component/navigator/redirect/redirect",
     "pages/homes/homes",
-    "pages/storage/storage"
+    "pages/storage/storage",
+    "pages/createFamily/createFamily",
+    "pages/joinFamily/joinFamily",
+    "pages/batchStockIn/batchStockIn"
   ],
   "window": {
     "pageOrientation": "portrait",
@@ -40,7 +43,7 @@
         "text": "家庭库存"
       },
       {
-        "pagePath": "pages/component/swiper/swiper",
+        "pagePath": "pages/createFamily/createFamily",
         "iconPath": "/static/过期提醒-inactive.png",
         "selectedIconPath": "/static/过期提醒-active.png",
         "text": "预警"
@@ -56,6 +59,18 @@
   "permission": {
     "scope.userLocation": {
       "desc": "演示定位能力"
+    },
+    "scope.userInfo": {
+      "desc": "用于完善会员资料"
+    }
+  },
+  "privacy": {
+    "prompt": "template",
+    "template": {
+      "title": "用户隐私保护提示",
+      "message": "请点击\"同意\"继续使用该功能 <a href=\"https://your-domain.com/privacy.html\">《用户隐私协议》</a>",
+      "acceptButton": "同意",
+      "rejectButton": "拒绝"
     }
   },
   "usingComponents": {}

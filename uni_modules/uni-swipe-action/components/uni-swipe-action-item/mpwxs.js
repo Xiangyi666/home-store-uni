@@ -16,6 +16,7 @@ mpMixins = {
 	},
 	watch: {
 		show(newVal) {
+			console.log('---newVal', newVal)
 			this.is_show = this.show
 		}
 	},
@@ -52,6 +53,9 @@ mpMixins = {
 			this.timestamp = new Date().getTime()
 		},
 		appTouchEnd(e, index, item, position) {
+			console.log('12312312', e, index, is_pc)
+			console.log('show---',this.show)
+			this.is_show = this.show
 			if (is_pc) return
 			const {
 				clientX
@@ -65,6 +69,7 @@ mpMixins = {
 					index,
 					position
 				})
+				this.closeSwipe()
 			}
 		},
 		onClickForPC(index, item, position) {

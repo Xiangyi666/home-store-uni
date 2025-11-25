@@ -14,16 +14,19 @@ if (!Math) {
   "./pages/component/navigator/redirect/redirect.js";
   "./pages/homes/homes.js";
   "./pages/storage/storage.js";
+  "./pages/createFamily/createFamily.js";
+  "./pages/joinFamily/joinFamily.js";
+  "./pages/batchStockIn/batchStockIn.js";
 }
 const _sfc_main = {
   onLaunch: function() {
-    common_vendor.index.__f__("log", "at App.vue:23", "App Launch");
+    common_vendor.index.__f__("log", "at App.vue:22", "App Launch");
   },
   onShow: function() {
-    common_vendor.index.__f__("log", "at App.vue:48", "App Show");
+    common_vendor.index.__f__("log", "at App.vue:47", "App Show");
   },
   onHide: function() {
-    common_vendor.index.__f__("log", "at App.vue:51", "App Hide");
+    common_vendor.index.__f__("log", "at App.vue:50", "App Hide");
   },
   globalData: {
     test: ""

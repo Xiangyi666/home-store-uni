@@ -11,6 +11,8 @@
     "minified": false,
     "newFeature": true,
     "bigPackageSizeSupport": true,
+    "ignoreDevUnusedFiles": false,
+    "ignoreUploadUnusedFiles": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -18,8 +20,8 @@
     }
   },
   "compileType": "miniprogram",
-  "libVersion": "3.11.0",
-  "appid": "touristappid",
+  "libVersion": "",
+  "appid": "wxf53b346b65ce426a",
   "projectname": "home-store-uni",
   "condition": {},
   "editorSetting": {

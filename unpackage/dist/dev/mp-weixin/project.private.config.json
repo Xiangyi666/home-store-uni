@@ -3,5 +3,6 @@
   "projectname": "home-store-uni",
   "setting": {
     "compileHotReLoad": true
-  }
+  },
+  "libVersion": "3.11.1"
 }
